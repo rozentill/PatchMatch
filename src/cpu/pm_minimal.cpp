@@ -5,7 +5,7 @@
   To improve generality you can:
    - Use whichever distance function you want in dist(), e.g. compare SIFT descriptors computed densely.
    - Search over a larger search space, such as rotating+scaling patches (see MATLAB mex for examples of both)
-  
+
   To improve speed you can:
    - Turn on optimizations (/Ox /Oi /Oy /fp:fast or -O6 -s -ffast-math -fomit-frame-pointer -fstrength-reduce -msse2 -funroll-loops)
    - Use the MATLAB mex which is already tuned for speed
@@ -18,7 +18,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <limits.h>
 #ifndef MAX
 #define MAX(a, b) ((a)>(b)?(a):(b))
 #define MIN(a, b) ((a)<(b)?(a):(b))
@@ -157,7 +157,7 @@ void patchmatch(BITMAP *a, BITMAP *b, BITMAP *&ann, BITMAP *&annd) {
       ystart = yend-1; yend = -1; ychange = -1;
     }
     for (int ay = ystart; ay != yend; ay += ychange) {
-      for (int ax = xstart; ax != xend; ax += xchange) { 
+      for (int ax = xstart; ax != xend; ax += xchange) {
         /* Current (best) guess. */
         int v = (*ann)[ay][ax];
         int xbest = INT_TO_X(v), ybest = INT_TO_Y(v);
