@@ -1,4 +1,3 @@
-
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
 #include "device_functions.h"
@@ -9,9 +8,11 @@
 
 using namespace cv;
 using namespace std;
+
 const int patch_w = 5;
 int	pm_iters = 5;
 int rs_max = INT_MAX;
+
 dim3 threadsPerBlock(patch_w,patch_w);
 
 #define XY_TO_INT(x, y) (((y)<<12)|(x))
@@ -19,37 +20,37 @@ dim3 threadsPerBlock(patch_w,patch_w);
 #define INT_TO_Y(v) ((v>>12)&((1<<12)-1))
 
 //l2 distance between two patches
-__global__ void dist_gpu( int ***a, int ***b, int ax, int ay, int bx, int by, int &ans, int cutoff = INT_MAX){
-	__shared__ int res[patch_w*patch_w];
-
-	int dr = a[ay + threadIdx.y][ax + threadIdx.x][2] - b[by + threadIdx.y][bx + threadIdx.x][2];
-	int dg = a[ay + threadIdx.y][ax + threadIdx.x][1] - b[by + threadIdx.y][bx + threadIdx.x][1];
-	int db = a[ay + threadIdx.y][ax + threadIdx.x][0] - b[by + threadIdx.y][bx + threadIdx.x][0];
+__global__ void dist_gpu(cudaPitchedPtr a, cudaPitchedPtr b, int * params){//params : 0 - ax, 1 - ay, 2 - bx, 3 - by, 4 - res,
+	//__shared__ int res[patch_w*patch_w];
+	int dr = a.ptr[params[1] + threadIdx.y][params[0] + threadIdx.x][2] - b[by + threadIdx.y][bx + threadIdx.x][2];
+	int dg = a.ptr[params[1] + threadIdx.y][params[0] + threadIdx.x][1] - b[by + threadIdx.y][bx + threadIdx.x][1];
+	int db = a.ptr[params[1] + threadIdx.y][params[0] + threadIdx.x][0] - b[by + threadIdx.y][bx + threadIdx.x][0];
 	/*patchd[threadIdx.y][threadIdx.x] = dr*dr + dg*dg + db*db;*/
 	res[threadIdx.y*patch_w+threadIdx.x] = dr*dr + dg*dg + db*db;
-	__syncthreads();
-	int i = patch_w*patch_w / 2;
-	int j = patch_w*patch_w % 2;
-	while (i != 0)
-	{
-		if (threadIdx.y*patch_w + threadIdx.x<i){
-			res[threadIdx.y*patch_w + threadIdx.x] += res[threadIdx.y*patch_w + threadIdx.x + i];
-		}
-		if (j == 1 && threadIdx.y*patch_w + threadIdx.x == i - 1){
-			res[threadIdx.y*patch_w + threadIdx.x] += res[threadIdx.y*patch_w + threadIdx.x + i + 1];
-		}
-		__syncthreads();
-		j = i % 2;
-		i = i / 2;
-	}
-	if (threadIdx.x == 0 && threadIdx.y == 0){
-		if (res[threadIdx.y*patch_w + threadIdx.x] >= cutoff){
-			ans = cutoff;
-		}
-		else{
-			ans = res[threadIdx.y*patch_w + threadIdx.x];
-		}
-	}
+	//__syncthreads();
+	//int i = patch_w*patch_w / 2;
+	//int j = patch_w*patch_w % 2;
+	//while (i != 0)
+	//{
+	//	if (threadIdx.y*patch_w + threadIdx.x<i){
+	//		res[threadIdx.y*patch_w + threadIdx.x] += res[threadIdx.y*patch_w + threadIdx.x + i];
+	//	}
+	//	if (j == 1 && threadIdx.y*patch_w + threadIdx.x == i - 1){
+	//		res[threadIdx.y*patch_w + threadIdx.x] += res[threadIdx.y*patch_w + threadIdx.x + i + 1];
+	//	}
+	//	__syncthreads();
+	//	j = i % 2;
+	//	i = i / 2;
+	//}
+	//if (threadIdx.x == 0 && threadIdx.y == 0){
+	//	//cout << "Total result is " << res[threadIdx.y*patch_w + threadIdx.x] << endl;
+	//	if (res[threadIdx.y*patch_w + threadIdx.x] >= cutoff){
+	//		ans = cutoff;
+	//	}
+	//	else{
+	//		ans = res[threadIdx.y*patch_w + threadIdx.x];
+	//	}
+	//}
 	/*ans = 0;
 	for (int dy = 0; dy < patch_w; dy++) {
 		for (int dx = 0; dx < patch_w; dx++) {
@@ -63,6 +64,7 @@ __global__ void dist_gpu( int ***a, int ***b, int ax, int ay, int bx, int by, in
 	return ans;*/
 	
 }
+
 int dist_test(int ***a, int ***b, int ax, int ay, int bx, int by, int cutoff = INT_MAX){
 	int ans = 0;
 	for (int dy = 0; dy < patch_w; dy++) {
@@ -94,13 +96,18 @@ int dist_test(int ***a, int ***b, int ax, int ay, int bx, int by, int cutoff = I
 //}
 
 void improve_guess(int *** a, int *** b, int ax, int ay, int &xbest, int &ybest, int &dbest, int bx, int by) {
-	int d;
-	dist_gpu << <1, threadsPerBlock >> >(a, b, ax, ay, bx, by, d, dbest);
-	
-	//cout << "d 0 is :" << d[0] << ", d:" << dist_test(a, b, ax, ay, bx, by, dbest) << endl;
+	int d_gpu[patch_w*patch_w] = { 0 }, d_cpu = 0;
+	dist_gpu<<<1, threadsPerBlock >>>(a, b, ax, ay, bx, by, d_gpu, dbest);
+	d_cpu = dist_test(a, b, ax, ay, bx, by, dbest);
+	int resgpu = 0;
+	for (int i = 0; i < patch_w; i++)
+	{
+		resgpu += d_gpu[i];
+	}
+	cout << "d-gpu is :" << resgpu << ", d-cpu:" << d_cpu << endl;
 	//int d = dist_test(a, b, ax, ay, bx, by, dbest);
-	if (d < dbest) {
-		dbest = d;
+	if (d_cpu < dbest) {
+		dbest = d_cpu;
 		xbest = bx;
 		ybest = by;
 	}
@@ -108,19 +115,24 @@ void improve_guess(int *** a, int *** b, int ax, int ay, int &xbest, int &ybest,
 
 //get the approximate nearest neighbor and set it into ann
 void patchmatch(Mat a, Mat b, unsigned int **&ann, int **&annd) {
-	int ans = 0;
+	
 	/* Initialize with random nearest neighbor field (NNF). */
-	//int ** patchd;
-	int *** a_pixel = new int **[a.rows];
+	int ans = 0;
+	int aew = a.cols - patch_w + 1, aeh = b.rows - patch_w + 1;       /* Effective width and height (possible upper left corners of patches). */
+	int bew = b.cols - patch_w + 1, beh = b.rows - patch_w + 1;
+
+	int *** a_pixel = new int **[a.rows];//set the rgb value from matrix a in a_pixel
 	int *** b_pixel = new int **[b.rows];
+	int *** dev_a;// device variable of a_pixel
+	int *** dev_b;
+
+	int params[5] = { 0 }; // 0 - ax, 1 - ay, 2 - bx, 3 - by, 4 - res
+	int * dev_params;
+
 	ann = new unsigned int *[a.rows];
 	annd = new int *[a.rows];
-	//patchd = new int *[patch_w];
-	//for (int i = 0; i < patch_w; i++)
-	//{
-	//	patchd[i] = new int[patch_w];
-	//	memset(patchd[i], 0, patch_w);
-	//}
+
+	// initialize ann, annd ,a_pixel, b_pixel
 	for (int i = 0; i < a.rows; i++)
 	{
 		ann[i] = new unsigned int[a.cols];
@@ -149,19 +161,69 @@ void patchmatch(Mat a, Mat b, unsigned int **&ann, int **&annd) {
 			b_pixel[i][j][2] = (int)bi.val[2];
 		}
 	}
-	int aew = a.cols - patch_w + 1, aeh = b.rows - patch_w + 1;       /* Effective width and height (possible upper left corners of patches). */
-	int bew = b.cols - patch_w + 1, beh = b.rows - patch_w + 1;
+
+	// cuda malloc
+	cudaError cudaStatus;
+	//3 dims
+	cudaExtent a_extent = make_cudaExtent(a.cols, a.rows, 3);
+	cudaExtent b_extent = make_cudaExtent(b.cols, b.rows, 3);
+	cudaPitchedPtr a_devPitchedPtr;
+	cudaPitchedPtr b_devPitchedPtr;
+
+	cudaMalloc3D(&a_devPitchedPtr, a_extent);
+	cudaMemcpy3DParms a_HostToDev = { 0 };
+	a_HostToDev.srcPtr = make_cudaPitchedPtr((void*)a_pixel, a.cols * sizeof(int), a.cols, a.rows);
+	a_HostToDev.dstPtr = a_devPitchedPtr;
+	a_HostToDev.extent = a_extent;
+	a_HostToDev.kind = cudaMemcpyHostToDevice;
+	cudaStatus = cudaMemcpy3D(&a_HostToDev);
+	if (cudaStatus != cudaSuccess){
+		fprintf(stderr, "MemcpyHtD: %s\n", cudaGetErrorString(cudaStatus));
+	}
+
+	cudaMalloc3D(&b_devPitchedPtr, b_extent);
+	cudaMemcpy3DParms b_HostToDev = { 0 };
+	b_HostToDev.srcPtr = make_cudaPitchedPtr((void*)b_pixel, b.cols * sizeof(int), b.cols, b.rows);
+	b_HostToDev.dstPtr = b_devPitchedPtr;
+	b_HostToDev.extent = b_extent;
+	b_HostToDev.kind = cudaMemcpyHostToDevice;
+	cudaStatus = cudaMemcpy3D(&b_HostToDev);
+	if (cudaStatus != cudaSuccess){
+		fprintf(stderr, "MemcpyHtD: %s\n", cudaGetErrorString(cudaStatus));
+	}
+
+	
 
 	for (int ay = 0; ay < aeh; ay++) {
 		for (int ax = 0; ax < aew; ax++) {
 			int bx = rand() % bew;
 			int by = rand() % beh;
 			
+			params[0] = ax;
+			params[1] = ay;
+			params[2] = bx;
+			params[3] = by;
+
+			cudaMalloc((void**)&dev_params, 5 * sizeof(int));
+			cudaMemcpy(dev_params, params, 5 * sizeof(int), cudaMemcpyHostToDevice);
+			if (cudaStatus != cudaSuccess){
+				fprintf(stderr, "MemcpyHtD: %s\n", cudaGetErrorString(cudaStatus));
+			}
+			dist_gpu<<<1, threadsPerBlock>>>(dev_a, dev_b, dev_params);
+
+			cudaStatus = cudaMemcpy(params, dev_params, 5 * sizeof(int), cudaMemcpyDeviceToHost);
+			if (cudaStatus != cudaSuccess){
+				fprintf(stderr, "MemcpyDtH: %s\n", cudaGetErrorString(cudaStatus));
+			}
 			ann[ay][ax] = XY_TO_INT(bx, by);
+			annd[ay][ax] = dev_params[4];
+
+			cudaFree(dev_params);
+
 			//annd[ay][ax] = dist_test(a_pixel, b_pixel , ax, ay, bx, by);
-			int ans;
-			dist_gpu << <1, threadsPerBlock >> >(a_pixel, b_pixel, ax, ay, bx, by, ans); 
-			annd[ay][ax] = ans;
+			//cout << "ann :" << ann[ay][ax] << ", annd :" << annd[ay][ax]<<endl;
+			ans = 0;
+			
 			
 		}
 	}
@@ -185,7 +247,32 @@ void patchmatch(Mat a, Mat b, unsigned int **&ann, int **&annd) {
 					int vp = ann[ay][ax - xchange];
 					int xp = INT_TO_X(vp) + xchange, yp = INT_TO_Y(vp);
 					if ((unsigned)xp < (unsigned)bew) {
-						improve_guess(a_pixel, b_pixel, ax, ay, xbest, ybest, dbest, xp, yp);
+						//improve guress
+						params[0] = ax;
+						params[1] = ay;
+						params[2] = xp;
+						params[3] = yp;
+
+						cudaMalloc((void**)&dev_params, 5 * sizeof(int));
+						cudaMemcpy(dev_params, params, 5 * sizeof(int), cudaMemcpyHostToDevice);
+						if (cudaStatus != cudaSuccess){
+							fprintf(stderr, "MemcpyHtD: %s\n", cudaGetErrorString(cudaStatus));
+						}
+						dist_gpu<<<1, threadsPerBlock>>>(dev_a, dev_b, dev_params);
+
+						cudaStatus = cudaMemcpy(params, dev_params, 5 * sizeof(int), cudaMemcpyDeviceToHost);
+						if (cudaStatus != cudaSuccess){
+							fprintf(stderr, "MemcpyDtH: %s\n", cudaGetErrorString(cudaStatus));
+						}
+						if (dev_params[4] < dbest){
+							xbest = xp;
+							ybest = yp;
+							dbest = dev_params[4];
+						}
+
+						cudaFree(dev_params);
+
+						//improve_guess(a_pixel, b_pixel, ax, ay, xbest, ybest, dbest, xp, yp);
 					}
 				}
 
@@ -193,7 +280,31 @@ void patchmatch(Mat a, Mat b, unsigned int **&ann, int **&annd) {
 					int vp = ann[ay - ychange][ax];
 					int xp = INT_TO_X(vp), yp = INT_TO_Y(vp) + ychange;
 					if ((unsigned)yp < (unsigned)beh) {
-						improve_guess(a_pixel, b_pixel, ax, ay, xbest, ybest, dbest, xp, yp);
+						//improve guress
+						params[0] = ax;
+						params[1] = ay;
+						params[2] = xp;
+						params[3] = yp;
+
+						cudaMalloc((void**)&dev_params, 5 * sizeof(int));
+						cudaMemcpy(dev_params, params, 5 * sizeof(int), cudaMemcpyHostToDevice);
+						if (cudaStatus != cudaSuccess){
+							fprintf(stderr, "MemcpyHtD: %s\n", cudaGetErrorString(cudaStatus));
+						}
+						dist_gpu<<<1, threadsPerBlock>>>(dev_a, dev_b, dev_params);
+
+						cudaStatus = cudaMemcpy(params, dev_params, 5 * sizeof(int), cudaMemcpyDeviceToHost);
+						if (cudaStatus != cudaSuccess){
+							fprintf(stderr, "MemcpyDtH: %s\n", cudaGetErrorString(cudaStatus));
+						}
+						if (dev_params[4] < dbest){
+							xbest = xp;
+							ybest = yp;
+							dbest = dev_params[4];
+						}
+
+						cudaFree(dev_params);
+						//improve_guess(a_pixel, b_pixel, ax, ay, xbest, ybest, dbest, xp, yp);
 					}
 				}
 
@@ -206,7 +317,31 @@ void patchmatch(Mat a, Mat b, unsigned int **&ann, int **&annd) {
 					int ymin = MAX(ybest - mag, 0), ymax = MIN(ybest + mag + 1, beh);
 					int xp = xmin + rand() % (xmax - xmin);
 					int yp = ymin + rand() % (ymax - ymin);
-					improve_guess(a_pixel, b_pixel, ax, ay, xbest, ybest, dbest, xp, yp);
+					//improve_guess(a_pixel, b_pixel, ax, ay, xbest, ybest, dbest, xp, yp);
+					//improve guress
+					params[0] = ax;
+					params[1] = ay;
+					params[2] = xp;
+					params[3] = yp;
+
+					cudaMalloc((void**)&dev_params, 5 * sizeof(int));
+					cudaMemcpy(dev_params, params, 5 * sizeof(int), cudaMemcpyHostToDevice);
+					if (cudaStatus != cudaSuccess){
+						fprintf(stderr, "MemcpyHtD: %s\n", cudaGetErrorString(cudaStatus));
+					}
+					dist_gpu<<<1, threadsPerBlock>>>(dev_a, dev_b, dev_params);
+
+					cudaStatus = cudaMemcpy(params, dev_params, 5 * sizeof(int), cudaMemcpyDeviceToHost);
+					if (cudaStatus != cudaSuccess){
+						fprintf(stderr, "MemcpyDtH: %s\n", cudaGetErrorString(cudaStatus));
+					}
+					if (dev_params[4] < dbest){
+						xbest = xp;
+						ybest = yp;
+						dbest = dev_params[4];
+					}
+
+					cudaFree(dev_params);
 				}
 
 				ann[ay][ax] = XY_TO_INT(xbest, ybest);
