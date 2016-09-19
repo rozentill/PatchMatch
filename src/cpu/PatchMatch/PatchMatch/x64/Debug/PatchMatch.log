@@ -1,0 +1,15 @@
+﻿Build started 2016/9/19 22:53:28.
+     1>Project "D:\Coding\Projects\PatchMatch\src\cpu\PatchMatch\PatchMatch\PatchMatch.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         D:\Tools\Visual Studio 2013 Ultimate\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /Od /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt patchmatch.cpp
+         patchmatch.cpp
+     1>patchmatch.cpp(264): warning C4018: '>' : signed/unsigned mismatch
+     1>patchmatch.cpp(309): warning C4551: function call missing argument list
+       Link:
+         D:\Tools\Visual Studio 2013 Ultimate\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Coding\Projects\PatchMatch\src\cpu\PatchMatch\x64\Debug\PatchMatch.exe" /INCREMENTAL /NOLOGO opencv_calib3d2413d.lib opencv_contrib2413d.lib opencv_core2413d.lib opencv_features2d2413d.lib opencv_flann2413d.lib opencv_gpu2413d.lib opencv_highgui2413d.lib opencv_imgproc2413d.lib opencv_legacy2413d.lib opencv_ml2413d.lib opencv_nonfree2413d.lib opencv_objdetect2413d.lib opencv_ocl2413d.lib opencv_photo2413d.lib opencv_stitching2413d.lib opencv_superres2413d.lib opencv_ts2413d.lib opencv_video2413d.lib opencv_videostab2413d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Coding\Projects\PatchMatch\src\cpu\PatchMatch\x64\Debug\PatchMatch.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Coding\Projects\PatchMatch\src\cpu\PatchMatch\x64\Debug\PatchMatch.lib" /MACHINE:X64 x64\Debug\patchmatch.obj
+         PatchMatch.vcxproj -> D:\Coding\Projects\PatchMatch\src\cpu\PatchMatch\x64\Debug\PatchMatch.exe
+     1>Done Building Project "D:\Coding\Projects\PatchMatch\src\cpu\PatchMatch\PatchMatch\PatchMatch.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.34
