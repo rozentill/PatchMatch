@@ -1,10 +1,10 @@
-﻿Build started 2016/9/19 22:32:30.
+﻿Build started 2016/10/20 23:59:40.
      1>Project "D:\Coding\Projects\PatchMatch\src\gpu\PatchMatch-GPU\PatchMatch-GPU\PatchMatch-GPU.vcxproj" on node 2 (Build target(s)).
      1>AddCudaCompileDeps:
          D:\Tools\Visual Studio 2013 Ultimate\VC\bin\x86_amd64\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /DWIN32 /DWIN64 /D_DEBUG /D_CONSOLE /D_MBCS /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /I. /FIcuda_runtime.h /c D:\Coding\Projects\PatchMatch\src\gpu\PatchMatch-GPU\PatchMatch-GPU\kernel.cu 
        CudaBuild:
          Compiling CUDA source file kernel.cu...
-         cmd.exe /C "C:\Users\windh\AppData\Local\Temp\tmpfacdc4a98d81437381088bfbff379e8c.cmd"
+         cmd.exe /C "C:\Users\windh\AppData\Local\Temp\tmpc64152c917724c998baf30f5f07fbfe9.cmd"
          "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "D:\Tools\Visual Studio 2013 Ultimate\VC\bin\x86_amd64"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\kernel.cu.obj "D:\Coding\Projects\PatchMatch\src\gpu\PatchMatch-GPU\PatchMatch-GPU\kernel.cu"
          
          D:\Coding\Projects\PatchMatch\src\gpu\PatchMatch-GPU\PatchMatch-GPU>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "D:\Tools\Visual Studio 2013 Ultimate\VC\bin\x86_amd64"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\kernel.cu.obj "D:\Coding\Projects\PatchMatch\src\gpu\PatchMatch-GPU\PatchMatch-GPU\kernel.cu" 
@@ -29,22 +29,11 @@
      1>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\device_functions.h(1621): warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
      1>D:\Coding\Tools\opencv\build\include\opencv2/ml/ml.hpp(955): warning : overloaded virtual function "CvDTree::train" is only partially overridden in class "CvForestTree"
      1>D:\Coding\Tools\opencv\build\include\opencv2/ml/ml.hpp(1143): warning : overloaded virtual function "CvDTree::train" is only partially overridden in class "CvBoostTree"
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(26): warning : variable "rows" was declared but never referenced
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(249): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(264): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(302): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(314): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(317): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(338): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(350): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(353): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(379): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(391): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(394): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(140): warning : variable "ans" was declared but never referenced
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(424): warning : variable "bew" was declared but never referenced
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(424): warning : variable "beh" was declared but never referenced
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(536): warning : expression has no effect
+     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(59): warning : variable "bew" was declared but never referenced
+     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(59): warning : variable "beh" was declared but never referenced
+     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(290): warning : pointless comparison of unsigned integer with zero
+     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(301): warning : pointless comparison of unsigned integer with zero
+     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(386): warning : expression has no effect
      1>c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\math_functions.h : warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
      1>c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\math_functions.h(859): warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
      1>c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\math_functions.h(1807): warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
@@ -106,22 +95,11 @@
      1>D:\Coding\Tools\opencv\build\include\opencv2/core/affine.hpp(282): warning : controlling expression is constant
      1>D:\Coding\Tools\opencv\build\include\opencv2/ml/ml.hpp(955): warning : overloaded virtual function "CvDTree::train" is only partially overridden in class "CvForestTree"
      1>D:\Coding\Tools\opencv\build\include\opencv2/ml/ml.hpp(1143): warning : overloaded virtual function "CvDTree::train" is only partially overridden in class "CvBoostTree"
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(26): warning : variable "rows" was declared but never referenced
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(249): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(264): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(302): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(314): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(317): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(338): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(350): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(353): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(379): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(391): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(394): warning : subscript out of range
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(140): warning : variable "ans" was declared but never referenced
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(424): warning : variable "bew" was declared but never referenced
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(424): warning : variable "beh" was declared but never referenced
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(536): warning : expression has no effect
+     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(59): warning : variable "bew" was declared but never referenced
+     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(59): warning : variable "beh" was declared but never referenced
+     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(290): warning : pointless comparison of unsigned integer with zero
+     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(301): warning : pointless comparison of unsigned integer with zero
+     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(386): warning : expression has no effect
      1>c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\math_functions.h : warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
      1>c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\math_functions.h(859): warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
      1>c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\math_functions.h(1807): warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
@@ -133,12 +111,8 @@
      1>c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\math_functions.h(7195): warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
      1>c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\math_functions.h(8066): warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
          kernel.cu
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(491): warning C4018: '>' : signed/unsigned mismatch
-     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(536): warning C4551: function call missing argument list
-     1>d:\coding\projects\patchmatch\src\gpu\patchmatch-gpu\patchmatch-gpu\kernel.cu(379): warning C4789: buffer 'params' of size 20 bytes will be overrun; 4 bytes will be written starting at offset 20
-     1>d:\coding\projects\patchmatch\src\gpu\patchmatch-gpu\patchmatch-gpu\kernel.cu(338): warning C4789: buffer 'params' of size 20 bytes will be overrun; 4 bytes will be written starting at offset 20
-     1>d:\coding\projects\patchmatch\src\gpu\patchmatch-gpu\patchmatch-gpu\kernel.cu(302): warning C4789: buffer 'params' of size 20 bytes will be overrun; 4 bytes will be written starting at offset 20
-     1>d:\coding\projects\patchmatch\src\gpu\patchmatch-gpu\patchmatch-gpu\kernel.cu(249): warning C4789: buffer 'params' of size 20 bytes will be overrun; 4 bytes will be written starting at offset 20
+     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(126): warning C4018: '>' : signed/unsigned mismatch
+     1>D:/Coding/Projects/PatchMatch/src/gpu/PatchMatch-GPU/PatchMatch-GPU/kernel.cu(386): warning C4551: function call missing argument list
        Link:
          D:\Tools\Visual Studio 2013 Ultimate\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Coding\Projects\PatchMatch\src\gpu\PatchMatch-GPU\x64\Debug\PatchMatch-GPU.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\lib\x64" cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib opencv_calib3d2413d.lib opencv_contrib2413d.lib opencv_core2413d.lib opencv_features2d2413d.lib opencv_flann2413d.lib opencv_gpu2413d.lib opencv_highgui2413d.lib opencv_imgproc2413d.lib opencv_legacy2413d.lib opencv_ml2413d.lib opencv_nonfree2413d.lib opencv_objdetect2413d.lib opencv_ocl2413d.lib opencv_photo2413d.lib opencv_stitching2413d.lib opencv_superres2413d.lib opencv_ts2413d.lib opencv_video2413d.lib opencv_videostab2413d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Coding\Projects\PatchMatch\src\gpu\PatchMatch-GPU\x64\Debug\PatchMatch-GPU.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Coding\Projects\PatchMatch\src\gpu\PatchMatch-GPU\x64\Debug\PatchMatch-GPU.lib" /MACHINE:X64 x64\Debug\kernel.cu.obj
          PatchMatch-GPU.vcxproj -> D:\Coding\Projects\PatchMatch\src\gpu\PatchMatch-GPU\x64\Debug\PatchMatch-GPU.exe
@@ -154,4 +128,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:11.06
+Time Elapsed 00:00:11.23

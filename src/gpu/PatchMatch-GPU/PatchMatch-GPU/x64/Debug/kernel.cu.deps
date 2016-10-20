@@ -502,3 +502,39 @@ D:\Coding\Tools\opencv\build\include\opencv2/contrib/retina.hpp
 D:\Tools\Visual Studio 2013 Ultimate\VC\include\valarray
 D:\Coding\Tools\opencv\build\include\opencv2/contrib/openfabmap.hpp
 D:\Tools\Visual Studio 2013 Ultimate\VC\include\set
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\curand_kernel.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand.h
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\cuda_runtime.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_discrete.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_precalc.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_mrg32k3a.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_mtgp32_kernel.h
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\cuda.h
+D:\Tools\Visual Studio 2013 Ultimate\VC\include\memory.h
+D:\Tools\Visual Studio 2013 Ultimate\VC\include\crtdefs.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_mtgp32.h
+D:\Tools\Visual Studio 2013 Ultimate\VC\include\math.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_philox4x32_x.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_globals.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_uniform.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_mrg32k3a.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_mtgp32_kernel.h
+D:\Tools\Visual Studio 2013 Ultimate\VC\include\math.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_normal.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_mrg32k3a.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_mtgp32_kernel.h
+D:\Tools\Visual Studio 2013 Ultimate\VC\include\math.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_normal_static.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_lognormal.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_mrg32k3a.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_mtgp32_kernel.h
+D:\Tools\Visual Studio 2013 Ultimate\VC\include\math.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_poisson.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_mrg32k3a.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_mtgp32_kernel.h
+D:\Tools\Visual Studio 2013 Ultimate\VC\include\math.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_discrete2.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_mrg32k3a.h
+c:\program files\nvidia gpu computing toolkit\cuda\v7.5\include\curand_mtgp32_kernel.h
+D:\Tools\Visual Studio 2013 Ultimate\VC\include\math.h

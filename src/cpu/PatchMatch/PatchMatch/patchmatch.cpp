@@ -16,7 +16,7 @@ int rs_max = INT_MAX;
 #define INT_TO_Y(v) ((v>>12)&((1<<12)-1))
 
 //l2 distance between two patches
-int dist_test(int ***a, int ***b, int ax, int ay, int bx, int by, int cutoff = INT_MAX){
+int dist(int ***a, int ***b, int ax, int ay, int bx, int by, int cutoff = INT_MAX){
 	int ans = 0;
 	for (int dy = 0; dy < patch_w; dy++) {
 		for (int dx = 0; dx < patch_w; dx++) {
@@ -30,27 +30,10 @@ int dist_test(int ***a, int ***b, int ax, int ay, int bx, int by, int cutoff = I
 	return ans;
 }
 
-//int dist(Mat a, Mat b, int ax, int ay, int bx, int by, int cutoff = INT_MAX){
-//	int ans = 0;
-//	for (int dy = 0; dy < patch_w; dy++) {
-//		for (int dx = 0; dx < patch_w; dx++) {
-//			Vec3b ai = a.at<Vec3b>(ay + dy, ax + dx);
-//			Vec3b bi = b.at<Vec3b>(by + dy, bx + dx);
-//			int dr = abs(ai.val[2] - bi.val[2]);
-//			int dg = abs(ai.val[1] - bi.val[1]);
-//			int db = abs(ai.val[0] - bi.val[0]);
-//			ans += dr*dr + dg*dg + db*db;
-//		}
-//		if (ans >= cutoff) { return cutoff; }
-//	}
-//	return ans;
-//}
-
 void improve_guess(int *** a, int *** b, int ax, int ay, int &xbest, int &ybest, int &dbest, int bx, int by) {
 	int d_cpu = 0;
 
-	d_cpu = dist_test(a, b, ax, ay, bx, by, dbest);
-	//int d = dist_test(a, b, ax, ay, bx, by, dbest);
+	d_cpu = dist(a, b, ax, ay, bx, by, dbest);
 	if (d_cpu < dbest) {
 		dbest = d_cpu;
 		xbest = bx;
@@ -63,7 +46,7 @@ void patchmatch(Mat a, Mat b, unsigned int **&ann, int **&annd) {
 	
 	/* Initialize with random nearest neighbor field (NNF). */
 	int ans = 0;
-	int aew = a.cols - patch_w + 1, aeh = b.rows - patch_w + 1;       /* Effective width and height (possible upper left corners of patches). */
+	int aew = a.cols - patch_w + 1, aeh = a.rows - patch_w + 1;       /* Effective width and height (possible upper left corners of patches). */
 	int bew = b.cols - patch_w + 1, beh = b.rows - patch_w + 1;
 
 	int *** a_pixel = new int ** [a.rows];//set the rgb value from matrix a in a_pixel
