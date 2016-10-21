@@ -7,8 +7,6 @@
 #include <cmath>
 #include <curand_kernel.h>
 
-#define CUDA_CALL(x) do { if((x) != cudaSuccess) { \ printf("Error at %s:%d\n",__FILE__,__LINE__); \ return EXIT_FAILURE;}} while(0)
-
 using namespace cv;
 using namespace std;
 
@@ -23,7 +21,7 @@ __host__ __device__ int INT_TO_Y(unsigned int v) {
 	return (v >> 12)&((1 << 12) - 1);
 }
 
-__host__ __device__ int Max(int a, int b){
+__host__ __device__ int cuMax(int a, int b){
 	if (a>b){
 		return a;
 	}
@@ -32,7 +30,7 @@ __host__ __device__ int Max(int a, int b){
 	}
 }
 
-__host__ __device__ int Min(int a, int b){
+__host__ __device__ int cuMin(int a, int b){
 	if (a<b){
 		return a;
 	}
@@ -316,13 +314,16 @@ __global__ void patchmatch(int * a, int * b, unsigned int *&ann, int *&annd, int
 				}
 			}
 			__syncthreads();
+
 			/* Random search: Improve current guess by searching in boxes of exponentially decreasing size around the current best guess. */
 			int rs_start = rs_max;
-			if (rs_start > Max(b_cols, b_rows)) { rs_start = Max(b_cols, b_rows); }
+			if (rs_start > cuMax(b_cols, b_rows)) {
+				rs_start = cuMax(b_cols, b_rows);
+			}
 			for (int mag = rs_start; mag >= 1; mag /= 2) {
 				/* Sampling window */
-				int xmin = Max(xbest - mag, 0), xmax = Min(xbest + mag + 1, bew);
-				int ymin = Max(ybest - mag, 0), ymax = Min(ybest + mag + 1, beh);
+				int xmin = cuMax(xbest - mag, 0), xmax = cuMin(xbest + mag + 1, bew);
+				int ymin = cuMax(ybest - mag, 0), ymax = cuMin(ybest + mag + 1, beh);
 				int xp = xmin + (int)(cuRand(&seed)*(xmax - xmin)) % (xmax - xmin);
 				int yp = ymin + (int)(cuRand(&seed)*(ymax - ymin)) % (ymax - ymin);
 
@@ -330,9 +331,12 @@ __global__ void patchmatch(int * a, int * b, unsigned int *&ann, int *&annd, int
 
 			}
 			__syncthreads();
+
 			ann[ay*aew + ax] = XY_TO_INT(xbest, ybest);
 			annd[ay*aew + ax] = dbest;
+			__syncthreads();
 		}
+
 	}
 	
 }
