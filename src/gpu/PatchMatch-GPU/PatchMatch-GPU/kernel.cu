@@ -214,6 +214,7 @@ __device__ void improve_guess(int * a, int * b,int a_rows, int a_cols,int b_rows
 	if (d < dbest){
 		xbest = xp;
 		ybest = yp;
+		dbest = d;
 	}
 }
 
